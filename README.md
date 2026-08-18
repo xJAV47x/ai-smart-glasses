@@ -1,58 +1,96 @@
-# AI Smart Glasses Project
+# AI Smart Glasses — Indoor Training Platform
 
-This repository contains the design, architecture, and eventual code for a budget-friendly AI Smart Glasses project with advanced capabilities.
+> **Current focus:** A budget-conscious, supervised indoor recreational-training prototype that lets a small team share a live venue map, complete objectives, receive operator-managed simulated events, and review a consented session debrief.
 
-## Project Goal
+## Why This Repository Exists
 
-To develop a prototype of AI Smart Glasses offering real-time visual overlays, facial recognition, object recognition, OSINT integration, and a 'Jarvis-like' AI assistant experience. The project emphasizes cost-effectiveness for prototyping and future productization, while ensuring legal compliance and ethical data handling.
+This repository is the planning and implementation home for an **augmented-reality-ready team training platform**. The long-term vision includes glasses-based visual overlays and personal productivity assistance. The immediate goal is deliberately smaller: demonstrate a safe, useful, commercially testable venue experience before investing in bespoke hardware, AI agents, advanced computer vision, or large arena infrastructure.
 
-## Key Features
+The first prototype is designed for **controlled, consent-based venues** such as recreational airsoft/paintball-style simulations, team-building events, and supervised training exercises. It is not designed for real-world surveillance, person identification, public-data profiling, target selection, or unsupervised tactical use.
 
-*   **Real-time Visual Overlays:** Google Maps-like navigation, contextual information display.
-*   **Facial Recognition:** Real-time identification using public data sources, including name and potential workplace.
-*   **Object Recognition:** Identification and contextual information for objects.
-*   **AI Assistant (Jarvis-like):** Voice-controlled interaction, daily task management, personalized guidance.
-*   **OSINT Capabilities:** Integration with open-source intelligence for enhanced context.
-*   **Manus AI Integration:** Leveraging advanced AI agent capabilities.
-*   **Budget-Friendly Design:** Optimized for cost-effective prototyping and scalable for commercialization.
-*   **Legal & Ethical Compliance:** Designed with strict adherence to data privacy and usage laws, particularly for facial recognition using public data.
+## MVP Promise
 
-## Architecture Overview
+A facilitator can create a private session, assign teams, configure objectives and restricted zones, observe a shared local map, record simulated session events, pause or end the session instantly, and produce a post-session summary. Participants join from ordinary phones or tablets, which keeps cost and hardware risk low.
 
-The system comprises a pair of AR glasses connected to a powerful, yet compact, edge AI compute unit. This modular design allows for flexible component selection and easy upgrades.
+| In the 90-day MVP | Explicitly deferred |
+|:--|:--|
+| Local venue map, team positions, objectives, and zones | Public-data facial recognition and OSINT enrichment |
+| Browser-based player client and operator console | Outdoor navigation and live public tracking |
+| Server-authoritative real-time state and session audit trail | Autonomous AI/tactical recommendations |
+| Safe manual or BLE-based simulated event input | Weapon-like hardware or camera-based engagement scoring |
+| Consent, privacy controls, safety checklist, and debrief | Persistent biometrics or nonparticipant data collection |
+| One supervised pilot venue | Multi-venue cloud scaling and custom smart-glasses manufacture |
 
-### Hardware
+## Recommended Initial Stack
 
-*   **AR Glasses:** Rokid Max Pro + Rokid Station (recommended for prototype balance of features and cost).
-*   **Edge AI Compute Unit:** NVIDIA Jetson Orin Nano Developer Kit (for high-performance AI inference).
-*   **Connectivity:** Bluetooth LE, Wi-Fi, Tailscale VPN for secure communication.
-*   **Power:** High-capacity USB-C power banks.
+The MVP uses a pragmatic, lightweight stack rather than a collection of speculative technologies.
 
-### Software
+| Layer | Recommended component | Role |
+|:--|:--|:--|
+| Participant and operator clients | React + TypeScript + Vite | Mobile-responsive browser applications. |
+| Real-time session state | [Colyseus](https://github.com/colyseus/colyseus) | Server-authoritative rooms, state synchronization, reconnection. |
+| Venue map | [MapLibre GL JS](https://github.com/maplibre/maplibre-gl-js) | Local floorplan, team markers, objectives, and zones. |
+| Durable records | PostgreSQL | Consent, session, and audit data. |
+| Early deployment | Docker Compose | One-command local venue stack. |
+| Optional disposable internal proof | [PocketBase](https://github.com/pocketbase/pocketbase) | A one-file self-hosted back end when speed matters more than enterprise durability. |
+| Later voice/video | [LiveKit](https://github.com/livekit/livekit) | Self-hosted WebRTC media after the core loop is proven. |
 
-*   **Operating Systems:** Ubuntu Linux (Edge AI), Android (AR Glasses companion app).
-*   **Core AI Modules:**
-    *   **Facial Recognition:** YOLOv8 (detection), ArcFace/FaceNet (embedding), Faiss (matching).
-    *   **Object Recognition:** YOLOv8, CLIP.
-    *   **OSINT Integration:** Python libraries for web scraping (with caution), public APIs.
-*   **AI Assistant:** Speech-to-Text (Whisper), Text-to-Speech (Google TTS), Local LLM (Llama 3/Mistral 7B) for privacy and cost, Cloud LLM (Manus AI, OpenAI API) for advanced tasks.
-*   **Data Management:** Local SQLite/PostgreSQL database for user data, embeddings, tasks, and OSINT caches.
+Colyseus offers server-defined state synchronization and room-based multiplayer primitives; MapLibre GL JS offers an open-source WebGL mapping layer under a BSD-3-Clause license.[1] [2]
 
-## Repository Structure
+## Repository Map
 
-- `docs/`: Design documents, architecture diagrams, legal considerations.
-- `hardware/`: Specifications, component lists, mounting designs.
-- `software/`: Source code for AI modules, companion app, OSINT engine, AI assistant.
-- `business/`: Business plan, market analysis, financial projections, presentations.
+```text
+ai-smart-glasses/
+├── apps/
+│   ├── player-client/         # Participant-facing client (scaffold)
+│   ├── operator-console/      # Session/facilitator controls (scaffold)
+│   └── api/                   # Service entry point (scaffold)
+├── packages/
+│   ├── shared-types/          # Shared TypeScript event and state contracts
+│   └── game-rules/            # Deterministic session and scoring rules
+├── infra/compose/             # Local venue deployment configuration
+├── hardware/bom/              # Tested hardware bill of materials
+├── tests/
+│   ├── e2e/                   # End-to-end session tests
+│   └── load/                  # Real-time load tests
+├── docs/
+│   ├── README.md              # Documentation index
+│   ├── PROTOTYPE_READINESS_AUDIT.md
+│   ├── 90_DAY_MVP_EXECUTION_PLAN.md
+│   ├── LEAN_TEAM_AND_HIRING_PLAN.md
+│   ├── OPEN_SOURCE_STACK_SHORTLIST.md
+│   └── ...legacy concept, business, and compliance documents
+└── business/                  # Business plans and presentation materials
+```
 
-## Getting Started
+## Start Here
 
-Detailed instructions for setting up the development environment, flashing the edge AI unit, and deploying initial software modules will be provided in subsequent updates.
+1. Read the [Prototype Readiness Audit](docs/PROTOTYPE_READINESS_AUDIT.md) to understand what exists and what is missing.
+2. Follow the [90-Day MVP Execution Plan](docs/90_DAY_MVP_EXECUTION_PLAN.md) for scope, cost controls, safety gates, and pilot acceptance criteria.
+3. Use the [Lean Team and Hiring Plan](docs/LEAN_TEAM_AND_HIRING_PLAN.md) to recruit only the roles that unblock the next deliverable.
+4. Select dependencies from the [Open-Source Stack Shortlist](docs/OPEN_SOURCE_STACK_SHORTLIST.md) after reviewing each project's license and security posture.
+5. Treat all legacy concepts as **exploration tracks** until the controlled MVP passes its pilot gates.
 
-## Contribution
+## Governance and Safety
 
-Contributions are welcome! Please refer to the `CONTRIBUTING.md` for guidelines.
+Every production or pilot change must preserve the following rules:
+
+- Sessions remain supervised in a defined venue with a facilitator pause/end control.
+- Participants receive clear notice and provide consent before joining a session.
+- Data collection remains limited to what is needed for the session; deletion and retention controls are tested.
+- No feature enables identification of nonparticipants, public-data profiling, real-world targeting, or autonomous decisions that affect participant safety.
+- Privacy counsel and venue-safety review are required before external or paid pilots.
+
+## Status
+
+**Planning and prototype-scaffold stage.** No functional application code is currently included. The next implementation milestone is a two-client local-map vertical slice followed by an operator-controlled five-player dry run.
 
 ## License
 
-[Specify License Here - e.g., MIT, Apache 2.0]
+No project license has been selected. Do not treat this repository as open source or accept external code contributions until the project owner chooses a license and contribution policy.
+
+## References
+
+[1] [Colyseus, “Authoritative Multiplayer Framework for Node.js.”](https://github.com/colyseus/colyseus)
+
+[2] [MapLibre GL JS, “Interactive vector tile maps in the browser.”](https://github.com/maplibre/maplibre-gl-js)
