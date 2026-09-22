@@ -1,0 +1,13 @@
+{
+  "name": "ai-smart-glasses-training-platform",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Safe, supervised indoor multiplayer training MVP",
+  "scripts": {
+    "start": "node apps/api/src/server.js",
+    "test": "node --test tests/api.test.js"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
+  }
+}

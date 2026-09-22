@@ -83,7 +83,9 @@ Every production or pilot change must preserve the following rules:
 
 ## Status
 
-**Planning and prototype-scaffold stage.** No functional application code is currently included. The next implementation milestone is a two-client local-map vertical slice followed by an operator-controlled five-player dry run.
+**Phase 1 foundation implemented.** The repository now includes a runnable local Node.js training API with consent-gated joins, bounded venue movement, facilitator-controlled simulated events, session pause/end controls, and an audit trail. The next implementation milestone is a two-client local-map vertical slice followed by an operator-controlled five-player dry run.
+
+See [Phase 1 Implementation](docs/PHASE_1_IMPLEMENTATION.md) for setup and the current safety boundaries. Run `npm install && npm test` to verify the service foundation.
 
 ## License
 
